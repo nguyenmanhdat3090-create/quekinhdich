@@ -722,6 +722,7 @@
         // 2. BIẾN TRẠNG THÁI & ÂM THANH ĐỒNG XU (WEB AUDIO API)
         // ============================================================================
         let currentMethod = 'coin';
+        let selectedTopicCategory = null; // Lưu chủ đề người dùng bấm chọn trực tiếp
         let tossedLines = []; // Mảng tối đa 6 phần tử: { value: 6|7|8|9, bit: '0'|'1', isMoving: bool, type: string, coins: [bool, bool, bool] }
         let isTossing = false;
         let currentReadingData = null;
@@ -769,11 +770,19 @@
         }
 
         function selectTopic(topicName) {
+            selectedTopicCategory = topicName;
             const textarea = document.getElementById('userQuestion');
-            const currentVal = textarea.value.trim();
+            let currentVal = textarea.value.trim();
+
+            // Xóa sạch các tiền tố chủ đề cũ nếu người dùng đổi sang chủ đề khác
+            currentVal = currentVal
+                .replace(/^\[[^\]]+\]\s*/g, '')
+                .replace(/^Xin hỏi về (?:phương diện )?(?:Công danh - Sự nghiệp|Tài lộc - Kinh doanh|Tình duyên - Hôn nhân|Gia đạo - Bình an|Sức khỏe - Tai ương)\s*:\s*/i, '')
+                .trim();
+
             if (!currentVal) {
-                textarea.value = `Xin hỏi về phương diện ${topicName}: `;
-            } else if (!currentVal.includes(topicName)) {
+                textarea.value = `Xin hỏi về ${topicName}: `;
+            } else {
                 textarea.value = `[${topicName}] ${currentVal}`;
             }
             textarea.focus();
@@ -1247,16 +1256,36 @@
 
         function detectQuestionCategory(question) {
             const q = question.toLowerCase();
-            // Ưu tiên nhận diện các câu hỏi chuyên biệt sâu sắc trước
+
+            // 1. Ưu tiên nhận diện câu hỏi đặc thù về người yêu cũ
             if (
                 q.includes("nyc") || q.includes("người yêu cũ") || q.includes("quay lại") ||
                 q.includes("tái hợp") || q.includes("gương vỡ") || q.includes("nối lại") ||
-                q.includes("chia tay") || q.includes("hàn gắn") || q.includes("cũ")
+                q.includes("chia tay") || q.includes("hàn gắn")
             ) {
                 return "ex_lover";
             }
-            if (q.includes("tình duyên") || q.includes("hôn nhân") || q.includes("tình cảm") || q.includes("yêu") || q.includes("vợ") || q.includes("chồng") || q.includes("người ấy") || q.includes("crush") || q.includes("tỏ tình")) {
+
+            // 2. Ưu tiên chủ đề người dùng đã bấm chọn hoặc tiền tố [Chủ đề] ở đầu câu
+            if (q.startsWith("[tài lộc") || q.startsWith("xin hỏi về tài lộc") || selectedTopicCategory === "Tài lộc - Kinh doanh") {
+                return "wealth";
+            }
+            if (q.startsWith("[công danh") || q.startsWith("xin hỏi về công danh") || selectedTopicCategory === "Công danh - Sự nghiệp") {
+                return (q.includes("chuyển việc") || q.includes("nhảy việc") || q.includes("nghỉ việc") || q.includes("xin việc") || q.includes("phỏng vấn")) ? "job_change" : "career";
+            }
+            if (q.startsWith("[tình duyên") || q.startsWith("xin hỏi về tình duyên") || selectedTopicCategory === "Tình duyên - Hôn nhân") {
                 return "love";
+            }
+            if (q.startsWith("[gia đạo") || q.startsWith("xin hỏi về gia đạo") || selectedTopicCategory === "Gia đạo - Bình an") {
+                return "family";
+            }
+            if (q.startsWith("[sức khỏe") || q.startsWith("xin hỏi về sức khỏe") || selectedTopicCategory === "Sức khỏe - Tai ương") {
+                return "health";
+            }
+
+            // 3. Tự động phân tích theo từ khóa trong nội dung câu hỏi tự do
+            if (q.includes("tài lộc") || q.includes("kinh doanh") || q.includes("tiền") || q.includes("đầu tư") || q.includes("buôn bán") || q.includes("làm ăn") || q.includes("tài chính") || q.includes("nợ") || q.includes("đánh con") || q.includes("số")) {
+                return "wealth";
             }
             if (q.includes("chuyển việc") || q.includes("nhảy việc") || q.includes("nghỉ việc") || q.includes("xin việc") || q.includes("phỏng vấn")) {
                 return "job_change";
@@ -1264,8 +1293,8 @@
             if (q.includes("công danh") || q.includes("sự nghiệp") || q.includes("công việc") || q.includes("việc làm") || q.includes("thăng chức") || q.includes("thi cử") || q.includes("học")) {
                 return "career";
             }
-            if (q.includes("tài lộc") || q.includes("kinh doanh") || q.includes("tiền") || q.includes("đầu tư") || q.includes("buôn bán") || q.includes("làm ăn") || q.includes("tài chính") || q.includes("nợ")) {
-                return "wealth";
+            if (q.includes("tình duyên") || q.includes("hôn nhân") || q.includes("tình cảm") || q.includes("yêu") || q.includes("vợ") || q.includes("chồng") || q.includes("người ấy") || q.includes("crush") || q.includes("tỏ tình")) {
+                return "love";
             }
             if (q.includes("gia đạo") || q.includes("bình an") || q.includes("nhà cửa") || q.includes("gia đình") || q.includes("con cái")) {
                 return "family";
@@ -1637,6 +1666,7 @@
             tossedLines = [];
             isTossing = false;
             currentReadingData = null;
+            selectedTopicCategory = null;
 
             document.getElementById('btnTossOnce').disabled = false;
             document.getElementById('btnTossAll').disabled = false;
