@@ -275,12 +275,15 @@
             </div>
 
             <!-- Tabs chuyển đổi -->
-            <div class="grid grid-cols-2 gap-2 sm:gap-4 bg-[#e6d7b9] p-1.5 rounded-xl mb-6 border border-[#b58938]/50">
-                <button id="tabBtnCoin" onclick="switchMethod('coin')" class="py-2.5 px-3 rounded-lg font-bold text-xs sm:text-base transition bg-[#9e2a2b] text-[#fdf8ee] shadow">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 bg-[#e6d7b9] p-1.5 rounded-xl mb-6 border border-[#b58938]/50">
+                <button id="tabBtnCoin" onclick="switchMethod('coin')" class="py-2.5 px-3 rounded-lg font-bold text-xs sm:text-sm transition bg-[#9e2a2b] text-[#fdf8ee] shadow">
                     🪙 Gieo 3 Đồng Xu (Lục Hào)
                 </button>
-                <button id="tabBtnMaiHoa" onclick="switchMethod('maihoa')" class="py-2.5 px-3 rounded-lg font-bold text-xs sm:text-base transition text-[#231f20] hover:bg-[#f4ebd9]/60">
+                <button id="tabBtnMaiHoa" onclick="switchMethod('maihoa')" class="py-2.5 px-3 rounded-lg font-bold text-xs sm:text-sm transition text-[#231f20] hover:bg-[#f4ebd9]/60">
                     🔢 Mai Hoa Dịch Số (Số / Giờ)
+                </button>
+                <button id="tabBtnManual" onclick="switchMethod('manual')" class="py-2.5 px-3 rounded-lg font-bold text-xs sm:text-sm transition text-[#231f20] hover:bg-[#f4ebd9]/60">
+                    ✍️ Tự Nhập Quẻ Đã Gieo
                 </button>
             </div>
 
@@ -475,6 +478,113 @@
                     </div>
                 </div>
             </div>
+
+            <!-- TAB 3: TỰ NHẬP QUẺ ĐÃ GIEO -->
+            <div id="methodManualPanel" class="hidden fade-in">
+                <div class="bg-[#efe5d1]/60 border border-[#b58938]/50 rounded-xl p-5 sm:p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-[#b58938]/30">
+                        <div>
+                            <h3 class="text-lg font-bold text-[#231f20]">Nhập Quẻ Bạn Đã Tự Gieo Bên Ngoài</h3>
+                            <p class="text-xs sm:text-sm text-[#574f48]">Chọn tên Quẻ Chủ (hoặc Thượng/Hạ Quái) và đánh dấu các hào động để hệ thống tự lập Quẻ Hỗ & Quẻ Biến.</p>
+                        </div>
+                        <span class="red-seal px-2.5 py-1 text-xs rounded self-start">TỰ LẬP QUẺ</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+                        <!-- Chọn quẻ theo tên hoặc Thượng/Hạ quái -->
+                        <div class="md:col-span-7 space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-[#574f48] mb-1.5">
+                                    Cách 1: Chọn nhanh trong 64 Quẻ Kinh Dịch
+                                </label>
+                                <select id="manualHexPreset" onchange="onManualPresetChange()" class="w-full rounded-lg bg-[#fffdf9] border border-[#b58938] px-3 py-2.5 text-sm font-medium text-[#231f20] focus:outline-none focus:ring-2 focus:ring-[#9e2a2b]">
+                                    <!-- Render bằng JS -->
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-[#574f48] mb-1.5">
+                                        Thượng Quái (3 hào trên)
+                                    </label>
+                                    <select id="manualUpperTrigram" onchange="onManualTrigramChange()" class="w-full rounded-lg bg-[#fffdf9] border border-[#b58938] px-3 py-2 text-sm text-[#231f20] focus:outline-none focus:ring-2 focus:ring-[#9e2a2b]">
+                                        <option value="1">1. Càn ☰ (Thiên - Kim)</option>
+                                        <option value="2">2. Đoài ☱ (Trạch - Kim)</option>
+                                        <option value="3">3. Ly ☲ (Hỏa - Hỏa)</option>
+                                        <option value="4">4. Chấn ☳ (Lôi - Mộc)</option>
+                                        <option value="5">5. Tốn ☴ (Phong - Mộc)</option>
+                                        <option value="6">6. Khảm ☵ (Thủy - Thủy)</option>
+                                        <option value="7">7. Cấn ☶ (Sơn - Thổ)</option>
+                                        <option value="8">8. Khôn ☷ (Địa - Thổ)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-[#574f48] mb-1.5">
+                                        Hạ Quái (3 hào dưới)
+                                    </label>
+                                    <select id="manualLowerTrigram" onchange="onManualTrigramChange()" class="w-full rounded-lg bg-[#fffdf9] border border-[#b58938] px-3 py-2 text-sm text-[#231f20] focus:outline-none focus:ring-2 focus:ring-[#9e2a2b]">
+                                        <option value="1">1. Càn ☰ (Thiên - Kim)</option>
+                                        <option value="2">2. Đoài ☱ (Trạch - Kim)</option>
+                                        <option value="3">3. Ly ☲ (Hỏa - Hỏa)</option>
+                                        <option value="4">4. Chấn ☳ (Lôi - Mộc)</option>
+                                        <option value="5">5. Tốn ☴ (Phong - Mộc)</option>
+                                        <option value="6">6. Khảm ☵ (Thủy - Thủy)</option>
+                                        <option value="7">7. Cấn ☶ (Sơn - Thổ)</option>
+                                        <option value="8">8. Khôn ☷ (Địa - Thổ)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Chọn Hào Động -->
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <label class="text-xs font-bold uppercase tracking-wider text-[#574f48]">
+                                        Chọn Hào Động (Có thể chọn nhiều hoặc bỏ trống nếu Quẻ Tĩnh):
+                                    </label>
+                                    <button type="button" onclick="clearManualMovingLines()" class="text-[11px] text-[#9e2a2b] hover:underline font-semibold">Xóa hào động</button>
+                                </div>
+                                <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="manualMovingLinesBox">
+                                    <label class="cursor-pointer select-none flex items-center justify-center gap-1.5 bg-[#fcf8f0] border border-[#b58938] rounded-lg py-2 px-2 text-xs font-bold hover:bg-[#e8d5b5] transition">
+                                        <input type="checkbox" value="1" onchange="updateManualPreview()" class="manual-mov-cb accent-[#9e2a2b]"> Hào 1
+                                    </label>
+                                    <label class="cursor-pointer select-none flex items-center justify-center gap-1.5 bg-[#fcf8f0] border border-[#b58938] rounded-lg py-2 px-2 text-xs font-bold hover:bg-[#e8d5b5] transition">
+                                        <input type="checkbox" value="2" onchange="updateManualPreview()" class="manual-mov-cb accent-[#9e2a2b]"> Hào 2
+                                    </label>
+                                    <label class="cursor-pointer select-none flex items-center justify-center gap-1.5 bg-[#fcf8f0] border border-[#b58938] rounded-lg py-2 px-2 text-xs font-bold hover:bg-[#e8d5b5] transition">
+                                        <input type="checkbox" value="3" onchange="updateManualPreview()" class="manual-mov-cb accent-[#9e2a2b]"> Hào 3
+                                    </label>
+                                    <label class="cursor-pointer select-none flex items-center justify-center gap-1.5 bg-[#fcf8f0] border border-[#b58938] rounded-lg py-2 px-2 text-xs font-bold hover:bg-[#e8d5b5] transition">
+                                        <input type="checkbox" value="4" onchange="updateManualPreview()" class="manual-mov-cb accent-[#9e2a2b]"> Hào 4
+                                    </label>
+                                    <label class="cursor-pointer select-none flex items-center justify-center gap-1.5 bg-[#fcf8f0] border border-[#b58938] rounded-lg py-2 px-2 text-xs font-bold hover:bg-[#e8d5b5] transition">
+                                        <input type="checkbox" value="5" onchange="updateManualPreview()" class="manual-mov-cb accent-[#9e2a2b]"> Hào 5
+                                    </label>
+                                    <label class="cursor-pointer select-none flex items-center justify-center gap-1.5 bg-[#fcf8f0] border border-[#b58938] rounded-lg py-2 px-2 text-xs font-bold hover:bg-[#e8d5b5] transition">
+                                        <input type="checkbox" value="6" onchange="updateManualPreview()" class="manual-mov-cb accent-[#9e2a2b]"> Hào 6
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Xem trước Quẻ Chủ - Hỗ - Biến -->
+                        <div class="md:col-span-5 bg-[#fcf8f0] border border-[#b58938] rounded-xl p-4 flex flex-col justify-between">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-wider text-center text-[#574f48] border-b border-[#b58938]/30 pb-2 mb-3">
+                                    Xem Trước Quẻ Tượng
+                                </p>
+                                <div id="manualPreviewGraphic" class="flex flex-col-reverse gap-2 my-2 px-2"></div>
+                                <div id="manualPreviewSummary" class="mt-3 pt-2.5 border-t border-[#b58938]/30 text-xs space-y-1 text-[#231f20]">
+                                    <!-- Render bằng JS -->
+                                </div>
+                            </div>
+
+                            <button onclick="submitManualHexagram()" class="btn-vermilion w-full py-3 rounded-xl font-bold text-sm sm:text-base mt-4">
+                                📜 Lập Quẻ Chủ • Hỗ • Biến & Luận Giải
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- BƯỚC 3: KẾT QUẢ & LUẬN GIẢI QUẺ (ẨN CHO ĐẾN KHI LẬP XONG QUẺ) -->
@@ -489,38 +599,38 @@
                     Tượng quẻ: Trời trên Trời dưới — Chính đại quang minh
                 </p>
                 <div id="questionRecapBox" class="mt-4 inline-block bg-[#efe5d1] border border-[#b58938] px-4 py-2 rounded-lg text-xs sm:text-sm text-[#231f20] max-w-2xl">
-                    <strong>Việc cần hỏi:</strong> <span id="questionRecapText" class="italic"></span>
-                </div>
-            </div>
-
-            <!-- SƠ ĐỒ BIẾN HÓA: QUẺ CHỦ -> HÀO ĐỘNG -> QUẺ BIẾN -->
-            <div class="grid grid-cols-1 md:grid-cols-11 gap-4 items-center bg-[#f4ebd9]/80 border border-[#b58938]/60 rounded-xl p-5 mb-8">
-                <!-- Quẻ Chủ -->
-                <div class="md:col-span-4 flex flex-col items-center">
-                    <span class="text-xs font-bold uppercase tracking-wider text-[#9e2a2b] mb-1">1. Quẻ Chủ (Hiện Tại)</span>
-                    <h4 id="cardMainName" class="font-display font-bold text-lg text-[#231f20] mb-3">Thuần Càn</h4>
-                    <div id="diagramMainHex" class="w-full max-w-[210px] flex flex-col-reverse gap-2 bg-[#fcf8f0] p-3.5 rounded-lg border border-[#b58938]/40 shadow-inner"></div>
-                    <p id="cardMainTrigrams" class="text-xs text-[#574f48] mt-2">Thượng Càn • Hạ Càn</p>
-                </div>
-
-                <!-- Mũi tên Hào Động -->
-                <div class="md:col-span-3 flex flex-col items-center justify-center text-center py-2">
-                    <div class="bg-[#9e2a2b] text-[#fdf8ee] px-3 py-1 rounded-full text-xs font-bold mb-2 shadow">
-                        BIẾN HÓA
-                    </div>
-                    <div class="text-2xl text-[#b58938] font-bold hidden md:block">➔</div>
-                    <div class="text-2xl text-[#b58938] font-bold md:hidden">⬇</div>
-                    <p id="movingLinesSummary" class="text-xs font-semibold text-[#231f20] mt-2 px-2">
+            <!-- SƠ ĐỒ BIẾN HÓA: QUẺ CHỦ -> QUẺ HỖ -> QUẺ BIẾN -->
+            <div class="bg-[#f4ebd9]/80 border border-[#b58938]/60 rounded-xl p-5 mb-8">
+                <div class="text-center mb-4">
+                    <span id="movingLinesSummary" class="inline-block bg-[#9e2a2b] text-[#fdf8ee] px-4 py-1 rounded-full text-xs font-bold shadow">
                         Động Hào 1, Hào 4
-                    </p>
+                    </span>
                 </div>
 
-                <!-- Quẻ Biến -->
-                <div class="md:col-span-4 flex flex-col items-center">
-                    <span class="text-xs font-bold uppercase tracking-wider text-[#574f48] mb-1">2. Quẻ Biến (Tương Lai / Kết Cục)</span>
-                    <h4 id="cardChangedName" class="font-display font-bold text-lg text-[#231f20] mb-3">Thiên Phong Cấu</h4>
-                    <div id="diagramChangedHex" class="w-full max-w-[210px] flex flex-col-reverse gap-2 bg-[#fcf8f0] p-3.5 rounded-lg border border-[#b58938]/40 shadow-inner"></div>
-                    <p id="cardChangedTrigrams" class="text-xs text-[#574f48] mt-2">Thượng Càn • Hạ Tốn</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+                    <!-- 1. Quẻ Chủ -->
+                    <div class="flex flex-col items-center bg-[#fcf8f0] p-4 rounded-xl border border-[#b58938]/50 shadow-xs">
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#9e2a2b] mb-1">1. Quẻ Chủ (Hiện Tại)</span>
+                        <h4 id="cardMainName" class="font-display font-bold text-lg text-[#231f20] mb-3 text-center">Thuần Càn</h4>
+                        <div id="diagramMainHex" class="w-full max-w-[210px] flex flex-col-reverse gap-2 bg-[#f4ebd9]/50 p-3 rounded-lg border border-[#b58938]/30"></div>
+                        <p id="cardMainTrigrams" class="text-xs text-[#574f48] mt-2.5 text-center">Thượng Càn • Hạ Càn</p>
+                    </div>
+
+                    <!-- 2. Quẻ Hỗ (Quá Trình / Nội Tại) -->
+                    <div class="flex flex-col items-center bg-[#fcf8f0] p-4 rounded-xl border border-[#b58938]/50 shadow-xs">
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#b58938] mb-1">2. Quẻ Hỗ (Quá Trình)</span>
+                        <h4 id="cardMutualName" class="font-display font-bold text-lg text-[#231f20] mb-3 text-center">Thuần Càn</h4>
+                        <div id="diagramMutualHex" class="w-full max-w-[210px] flex flex-col-reverse gap-2 bg-[#f4ebd9]/50 p-3 rounded-lg border border-[#b58938]/30"></div>
+                        <p id="cardMutualTrigrams" class="text-xs text-[#574f48] mt-2.5 text-center">Thượng Càn • Hạ Càn</p>
+                    </div>
+
+                    <!-- 3. Quẻ Biến (Tương Lai / Kết Cục) -->
+                    <div class="flex flex-col items-center bg-[#fcf8f0] p-4 rounded-xl border border-[#b58938]/50 shadow-xs">
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#574f48] mb-1">3. Quẻ Biến (Kết Cục)</span>
+                        <h4 id="cardChangedName" class="font-display font-bold text-lg text-[#231f20] mb-3 text-center">Thiên Phong Cấu</h4>
+                        <div id="diagramChangedHex" class="w-full max-w-[210px] flex flex-col-reverse gap-2 bg-[#f4ebd9]/50 p-3 rounded-lg border border-[#b58938]/30"></div>
+                        <p id="cardChangedTrigrams" class="text-xs text-[#574f48] mt-2.5 text-center">Thượng Càn • Hạ Tốn</p>
+                    </div>
                 </div>
             </div>
 
@@ -602,6 +712,35 @@
                         </button>
                     </div>
                     <div id="aiResponseContent" class="prose prose-sm sm:prose-base max-w-none text-[#231f20] leading-relaxed space-y-3"></div>
+                </div>
+
+                <!-- HỎI ĐÁP THÊM VỚI THẦY ĐỒ VỀ QUẺ NÀY -->
+                <div class="mt-6 bg-[#f4ebd9]/90 border-2 border-[#b58938] rounded-xl p-5 sm:p-6">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xl">🍵</span>
+                        <h4 class="font-display font-bold text-lg text-[#231f20]">Đàm Đạo & Hỏi Thêm Về Quẻ Này</h4>
+                    </div>
+                    <p class="text-xs sm:text-sm text-[#574f48] mb-3">
+                        Bạn muốn hỏi sâu hơn về quẻ vừa lập (ví dụ: <em>"Khi nào thì ứng nghiệm?"</em>, <em>"Quẻ Hỗ ảnh hưởng thế nào đến quá trình?"</em>, <em>"Nên chủ động hay chờ đợi?"</em>, <em>"Hào động này báo điều gì?"</em>...)? Hãy nhập câu hỏi bên dưới:
+                    </p>
+
+                    <!-- Gợi ý câu hỏi nhanh -->
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                        <button type="button" onclick="askFollowUpPreset('Quẻ Hỗ ở giữa cho thấy quá trình diễn biến như thế nào?')" class="text-xs bg-[#fcf8f0] hover:bg-[#e8d5b5] border border-[#b58938] px-2.5 py-1 rounded-md transition">🔄 Ý nghĩa Quẻ Hỗ</button>
+                        <button type="button" onclick="askFollowUpPreset('Khoảng bao lâu thì quẻ này ứng nghiệm?')" class="text-xs bg-[#fcf8f0] hover:bg-[#e8d5b5] border border-[#b58938] px-2.5 py-1 rounded-md transition">⏳ Thời điểm ứng nghiệm</button>
+                        <button type="button" onclick="askFollowUpPreset('Hiện tại tôi nên chủ động tiến tới hay lùi lại chờ thời?')" class="text-xs bg-[#fcf8f0] hover:bg-[#e8d5b5] border border-[#b58938] px-2.5 py-1 rounded-md transition">🧭 Nên Tiến hay Lùi</button>
+                        <button type="button" onclick="askFollowUpPreset('Điểm nguy hiểm hoặc rủi ro lớn nhất cần tránh trong quẻ này là gì?')" class="text-xs bg-[#fcf8f0] hover:bg-[#e8d5b5] border border-[#b58938] px-2.5 py-1 rounded-md transition">⚠️ Rủi ro cần tránh</button>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="followUpInput" onkeydown="if(event.key==='Enter') sendFollowUpQuestion()" placeholder="Nhập điều bạn muốn hỏi thêm về quẻ này..." class="flex-1 rounded-lg bg-[#fffdf9] border border-[#b58938] px-3.5 py-2.5 text-sm text-[#231f20] focus:outline-none focus:ring-2 focus:ring-[#9e2a2b]">
+                        <button type="button" onclick="sendFollowUpQuestion()" class="btn-vermilion px-5 py-2.5 rounded-lg font-bold text-sm shrink-0">
+                            💬 Hỏi Thầy Đồ
+                        </button>
+                    </div>
+
+                    <!-- Lịch sử hỏi đáp thêm của quẻ hiện tại -->
+                    <div id="followUpThread" class="mt-4 space-y-3 hidden"></div>
                 </div>
             </div>
         </section>
@@ -802,21 +941,24 @@
             currentMethod = method;
             const btnCoin = document.getElementById('tabBtnCoin');
             const btnMH = document.getElementById('tabBtnMaiHoa');
+            const btnManual = document.getElementById('tabBtnManual');
             const panelCoin = document.getElementById('methodCoinPanel');
             const panelMH = document.getElementById('methodMaiHoaPanel');
+            const panelManual = document.getElementById('methodManualPanel');
 
-            if (method === 'coin') {
-                btnCoin.className = "py-2.5 px-3 rounded-lg font-bold text-xs sm:text-base transition bg-[#9e2a2b] text-[#fdf8ee] shadow";
-                btnMH.className = "py-2.5 px-3 rounded-lg font-bold text-xs sm:text-base transition text-[#231f20] hover:bg-[#f4ebd9]/60";
-                panelCoin.classList.remove('hidden');
-                panelMH.classList.add('hidden');
-            } else {
-                btnMH.className = "py-2.5 px-3 rounded-lg font-bold text-xs sm:text-base transition bg-[#9e2a2b] text-[#fdf8ee] shadow";
-                btnCoin.className = "py-2.5 px-3 rounded-lg font-bold text-xs sm:text-base transition text-[#231f20] hover:bg-[#f4ebd9]/60";
-                panelMH.classList.remove('hidden');
-                panelCoin.classList.add('hidden');
-                updateClock();
-            }
+            const activeClass = "py-2.5 px-3 rounded-lg font-bold text-xs sm:text-sm transition bg-[#9e2a2b] text-[#fdf8ee] shadow";
+            const inactiveClass = "py-2.5 px-3 rounded-lg font-bold text-xs sm:text-sm transition text-[#231f20] hover:bg-[#f4ebd9]/60";
+
+            btnCoin.className = method === 'coin' ? activeClass : inactiveClass;
+            btnMH.className = method === 'maihoa' ? activeClass : inactiveClass;
+            btnManual.className = method === 'manual' ? activeClass : inactiveClass;
+
+            panelCoin.classList.toggle('hidden', method !== 'coin');
+            panelMH.classList.toggle('hidden', method !== 'maihoa');
+            panelManual.classList.toggle('hidden', method !== 'manual');
+
+            if (method === 'maihoa') updateClock();
+            if (method === 'manual') updateManualPreview();
         }
 
         // ============================================================================
@@ -1096,6 +1238,124 @@
         }
 
         // ============================================================================
+        // 5B. PHƯƠNG PHÁP 3: TỰ NHẬP QUẺ ĐÃ GIEO (CHỦ - HỖ - BIẾN)
+        // ============================================================================
+        function initManualHexagramSelector() {
+            const presetSelect = document.getElementById('manualHexPreset');
+            if (!presetSelect) return;
+
+            // Sắp xếp 64 quẻ theo số thứ tự từ 1 -> 64
+            const entries = Object.entries(HEXAGRAMS).map(([key, val]) => {
+                const [upId, lowId] = key.split('-').map(Number);
+                return { key, upId, lowId, ...val };
+            }).sort((a, b) => a.num - b.num);
+
+            presetSelect.innerHTML = entries.map(item =>
+                `<option value="${item.key}">Quẻ ${item.num}. ${item.name} (Thượng ${TRIGRAMS[item.upId].name} • Hạ ${TRIGRAMS[item.lowId].name})</option>`
+            ).join('');
+
+            updateManualPreview();
+        }
+
+        function onManualPresetChange() {
+            const val = document.getElementById('manualHexPreset').value;
+            const [upId, lowId] = val.split('-');
+            document.getElementById('manualUpperTrigram').value = upId;
+            document.getElementById('manualLowerTrigram').value = lowId;
+            updateManualPreview();
+        }
+
+        function onManualTrigramChange() {
+            const upId = document.getElementById('manualUpperTrigram').value;
+            const lowId = document.getElementById('manualLowerTrigram').value;
+            const presetSelect = document.getElementById('manualHexPreset');
+            if (presetSelect) presetSelect.value = `${upId}-${lowId}`;
+            updateManualPreview();
+        }
+
+        function clearManualMovingLines() {
+            document.querySelectorAll('.manual-mov-cb').forEach(cb => cb.checked = false);
+            updateManualPreview();
+        }
+
+        function computeMutualBits(mainBits) {
+            // Quẻ Hỗ: Hạ hỗ gồm hào 2, 3, 4 (index 1, 2, 3); Thượng hỗ gồm hào 3, 4, 5 (index 2, 3, 4)
+            return mainBits.slice(1, 4) + mainBits.slice(2, 5);
+        }
+
+        function getManualSelectionState() {
+            const upId = parseInt(document.getElementById('manualUpperTrigram').value, 10);
+            const lowId = parseInt(document.getElementById('manualLowerTrigram').value, 10);
+            const mainBits = TRIGRAMS[lowId].bits + TRIGRAMS[upId].bits;
+
+            const checkedLines = Array.from(document.querySelectorAll('.manual-mov-cb:checked'))
+                .map(cb => parseInt(cb.value, 10))
+                .sort((a, b) => a - b);
+
+            const movingSet = new Set(checkedLines);
+            const bitsArr = mainBits.split('');
+            const movingLines = [];
+
+            checkedLines.forEach(lineNum => {
+                const idx = lineNum - 1;
+                const oldBit = bitsArr[idx];
+                bitsArr[idx] = oldBit === '1' ? '0' : '1';
+                movingLines.push({
+                    line: lineNum,
+                    type: oldBit === '1' ? 'Lão Dương (Động)' : 'Lão Âm (Động)'
+                });
+            });
+
+            const changedBits = bitsArr.join('');
+            const mutualBits = computeMutualBits(mainBits);
+
+            return { upId, lowId, mainBits, mutualBits, changedBits, movingLines, movingSet };
+        }
+
+        function updateManualPreview() {
+            const state = getManualSelectionState();
+            const graphicEl = document.getElementById('manualPreviewGraphic');
+            const summaryEl = document.getElementById('manualPreviewSummary');
+            if (!graphicEl || !summaryEl) return;
+
+            let graphicHtml = '';
+            for (let i = 0; i < 6; i++) {
+                graphicHtml += renderLineGraphic(state.mainBits[i], state.movingSet.has(i + 1), i + 1);
+            }
+            graphicEl.innerHTML = graphicHtml;
+
+            const mainHex = HEXAGRAMS[`${state.upId}-${state.lowId}`];
+            const mutLowId = findTrigramIdByBits(state.mutualBits.slice(0, 3));
+            const mutUpId = findTrigramIdByBits(state.mutualBits.slice(3, 6));
+            const mutualHex = HEXAGRAMS[`${mutUpId}-${mutLowId}`];
+
+            const chgLowId = findTrigramIdByBits(state.changedBits.slice(0, 3));
+            const chgUpId = findTrigramIdByBits(state.changedBits.slice(3, 6));
+            const changedHex = HEXAGRAMS[`${chgUpId}-${chgLowId}`];
+
+            const movText = state.movingLines.length > 0
+                ? state.movingLines.map(m => `Hào ${m.line}`).join(', ')
+                : 'Không có (Quẻ Tĩnh)';
+
+            summaryEl.innerHTML = `
+                <div class="flex justify-between"><span class="text-[#574f48]">Quẻ Chủ:</span><strong class="text-[#9e2a2b]">${mainHex.name}</strong></div>
+                <div class="flex justify-between"><span class="text-[#574f48]">Quẻ Hỗ:</span><strong>${mutualHex.name}</strong></div>
+                <div class="flex justify-between"><span class="text-[#574f48]">Động hào:</span><strong class="text-[#9e2a2b]">${movText}</strong></div>
+                <div class="flex justify-between"><span class="text-[#574f48]">Quẻ Biến:</span><strong>${state.movingLines.length > 0 ? changedHex.name : mainHex.name + ' (Tĩnh)'}</strong></div>
+            `;
+        }
+
+        function submitManualHexagram() {
+            const state = getManualSelectionState();
+            buildAndDisplayResult({
+                methodLabel: "TỰ NHẬP QUẺ ĐÃ GIEO",
+                mainBits: state.mainBits,
+                changedBits: state.changedBits,
+                movingLines: state.movingLines
+            });
+        }
+
+        // ============================================================================
         // 6. TỔNG HỢP & HIỂN THỊ KẾT QUẢ 64 QUẺ KINH DỊCH
         // ============================================================================
         function findTrigramIdByBits(threeBits) {
@@ -1104,12 +1364,17 @@
         }
 
         function buildAndDisplayResult({ methodLabel, mainBits, changedBits, movingLines }) {
+            const mutualBits = computeMutualBits(mainBits);
+
             const mainLowerId = findTrigramIdByBits(mainBits.slice(0, 3));
             const mainUpperId = findTrigramIdByBits(mainBits.slice(3, 6));
+            const mutualLowerId = findTrigramIdByBits(mutualBits.slice(0, 3));
+            const mutualUpperId = findTrigramIdByBits(mutualBits.slice(3, 6));
             const changedLowerId = findTrigramIdByBits(changedBits.slice(0, 3));
             const changedUpperId = findTrigramIdByBits(changedBits.slice(3, 6));
 
             const mainHex = HEXAGRAMS[`${mainUpperId}-${mainLowerId}`];
+            const mutualHex = HEXAGRAMS[`${mutualUpperId}-${mutualLowerId}`];
             const changedHex = HEXAGRAMS[`${changedUpperId}-${changedLowerId}`];
 
             const rawQuestion = document.getElementById('userQuestion').value.trim();
@@ -1121,26 +1386,32 @@
             document.getElementById('mainHexSubtitle').textContent = `Tượng quẻ: ${mainHex.image}`;
             document.getElementById('questionRecapText').textContent = questionText;
 
-            // Vẽ sơ đồ Quẻ Chủ & Quẻ Biến
+            // Vẽ sơ đồ Quẻ Chủ, Quẻ Hỗ & Quẻ Biến
             document.getElementById('cardMainName').textContent = mainHex.name;
             document.getElementById('cardMainTrigrams').textContent = `Thượng ${TRIGRAMS[mainUpperId].name} (${TRIGRAMS[mainUpperId].symbol}) • Hạ ${TRIGRAMS[mainLowerId].name} (${TRIGRAMS[mainLowerId].symbol})`;
 
+            document.getElementById('cardMutualName').textContent = mutualHex.name;
+            document.getElementById('cardMutualTrigrams').textContent = `Thượng ${TRIGRAMS[mutualUpperId].name} (${TRIGRAMS[mutualUpperId].symbol}) • Hạ ${TRIGRAMS[mutualLowerId].name} (${TRIGRAMS[mutualLowerId].symbol})`;
+
             const movingSet = new Set(movingLines.map(m => m.line));
             let mainDiagramHtml = '';
+            let mutualDiagramHtml = '';
             let changedDiagramHtml = '';
             for (let i = 0; i < 6; i++) {
                 const isMov = movingSet.has(i + 1);
                 mainDiagramHtml += renderLineGraphic(mainBits[i], isMov, i + 1);
+                mutualDiagramHtml += renderLineGraphic(mutualBits[i], false, i + 1);
                 changedDiagramHtml += renderLineGraphic(changedBits[i], false, i + 1);
             }
             document.getElementById('diagramMainHex').innerHTML = mainDiagramHtml;
+            document.getElementById('diagramMutualHex').innerHTML = mutualDiagramHtml;
             document.getElementById('diagramChangedHex').innerHTML = changedDiagramHtml;
 
             if (movingLines.length === 0) {
                 document.getElementById('movingLinesSummary').textContent = "Quẻ Tĩnh (Không có hào động)";
                 document.getElementById('cardChangedName').textContent = `${changedHex.name} (Giữ nguyên)`;
             } else {
-                document.getElementById('movingLinesSummary').textContent = "Động: " + movingLines.map(m => `Hào ${m.line}`).join(', ');
+                document.getElementById('movingLinesSummary').textContent = "Động: " + movingLines.map(m => `Hào ${m.line} (${m.type})`).join(' • ');
                 document.getElementById('cardChangedName').textContent = changedHex.name;
             }
             document.getElementById('cardChangedTrigrams').textContent = `Thượng ${TRIGRAMS[changedUpperId].name} (${TRIGRAMS[changedUpperId].symbol}) • Hạ ${TRIGRAMS[changedLowerId].name} (${TRIGRAMS[changedLowerId].symbol})`;
@@ -1153,15 +1424,21 @@
             document.getElementById('hexLove').textContent = mainHex.love;
             document.getElementById('hexAdvice').textContent = mainHex.advice;
 
+            const mutualNote = `➔ Quẻ Hỗ (${mutualHex.name}) cho thấy diễn biến nội tại ở giai đoạn giữa: ${mutualHex.general}`;
             if (movingLines.length > 0) {
-                document.getElementById('changedHexNote').textContent = `➔ Xu thế biến hóa sang Quẻ ${changedHex.name}: ${changedHex.general}`;
+                document.getElementById('changedHexNote').innerHTML = `${mutualNote}<br>➔ Xu thế biến hóa sang Quẻ Biến (${changedHex.name}): ${changedHex.general}`;
             } else {
-                document.getElementById('changedHexNote').textContent = `➔ Quẻ Tĩnh không biến: Mọi diễn biến đều tập trung trọn vẹn ở Quẻ Chủ ${mainHex.name}.`;
+                document.getElementById('changedHexNote').innerHTML = `${mutualNote}<br>➔ Quẻ Tĩnh không biến: Kết cục chung quy vẫn tập trung trọn vẹn ở Quẻ Chủ ${mainHex.name}.`;
             }
 
-            // Ẩn khung luận giải Thầy Đồ cũ nếu đang mở
+            // Ẩn khung luận giải Thầy Đồ cũ & xóa luồng hỏi đáp cũ nếu đang mở
             document.getElementById('aiResponseBox').classList.add('hidden');
             document.getElementById('aiLoadingBox').classList.add('hidden');
+            const followUpThread = document.getElementById('followUpThread');
+            if (followUpThread) {
+                followUpThread.innerHTML = '';
+                followUpThread.classList.add('hidden');
+            }
 
             // Lưu state hiện tại
             currentReadingData = {
@@ -1170,9 +1447,12 @@
                 question: questionText,
                 methodLabel,
                 mainHex,
+                mutualHex,
                 changedHex,
                 mainUpperId,
                 mainLowerId,
+                mutualUpperId,
+                mutualLowerId,
                 changedUpperId,
                 changedLowerId,
                 mainUpper: TRIGRAMS[mainUpperId].name,
@@ -1181,6 +1461,7 @@
                 changedLower: TRIGRAMS[changedLowerId].name,
                 movingLines,
                 mainBits,
+                mutualBits,
                 changedBits
             };
 
@@ -1520,7 +1801,8 @@
                     </div>
 
                     <div>
-                        <h5 class="font-bold text-base text-[#9e2a2b] mb-1">3. Cơ Chế Biến Hóa Hào Động & Kết Cục Tương Lai</h5>
+                        <h5 class="font-bold text-base text-[#9e2a2b] mb-1">3. Quẻ Hỗ (Quá Trình) & Biến Hóa Kết Cục Tương Lai</h5>
+                        <p class="mb-2"><strong>• Quẻ Hỗ — ${d.mutualHex.name}</strong> (<em>${d.mutualHex.image}</em>): Ẩn tàng bên trong Quẻ Chủ (lấy từ hào 2-3-4 và 3-4-5), cho thấy giai đoạn trung gian sự việc sẽ trải qua trạng thái: ${d.mutualHex.general.toLowerCase()}</p>
                         ${movingSectionHtml}
                     </div>
 
@@ -1570,6 +1852,118 @@
             document.execCommand('copy');
             document.body.removeChild(tempArea);
             showToast("Đã sao chép lời bình của Thầy Đồ vào bộ nhớ tạm!");
+        }
+
+        // ============================================================================
+        // 7B. HỎI ĐÁP THÊM VỚI THẦY ĐỒ XOAY QUANH QUẺ VỪA LẬP
+        // ============================================================================
+        function askFollowUpPreset(text) {
+            document.getElementById('followUpInput').value = text;
+            sendFollowUpQuestion();
+        }
+
+        function generateFollowUpAnswer(userFollowUp, d) {
+            const q = userFollowUp.toLowerCase();
+            const mainLowerTrigram = TRIGRAMS[d.mainLowerId];
+            const mainUpperTrigram = TRIGRAMS[d.mainUpperId];
+            const changedUpperTrigram = TRIGRAMS[d.changedUpperId];
+
+            const selfElement = mainLowerTrigram.element;
+            const envElement = mainUpperTrigram.element;
+            const futureElement = changedUpperTrigram.element;
+            const innerOuterRel = ELEMENT_RELATIONS[`${selfElement}-${envElement}`];
+            const verdict = evaluateFortuneVerdict(d, innerOuterRel, ELEMENT_RELATIONS[`${selfElement}-${futureElement}`]);
+
+            // 1. Hỏi về Quẻ Hỗ
+            if (q.includes("hỗ") || q.includes("quá trình") || q.includes("giữa")) {
+                return `
+                    <p>Trong dịch lý, <strong>Quẻ Chủ (${d.mainHex.name})</strong> là khởi đầu, <strong>Quẻ Hỗ (${d.mutualHex.name})</strong> là diễn biến cốt lõi ở giai đoạn giữa, còn <strong>Quẻ Biến (${d.changedHex.name})</strong> là kết cục cuối cùng.</p>
+                    <p class="mt-1.5">Ở quẻ của bạn, <strong>Quẻ Hỗ ${d.mutualHex.name}</strong> mang tượng <em>"${d.mutualHex.image}"</em>. Điều này báo hiệu rằng trong quá trình thực hiện, sự việc sẽ đi qua giai đoạn: <strong>${d.mutualHex.general}</strong> Lời khuyên cho giai đoạn giữa này là: <em>"${d.mutualHex.advice}"</em></p>
+                `;
+            }
+
+            // 2. Hỏi về thời gian / bao lâu ứng nghiệm
+            if (q.includes("bao lâu") || q.includes("khi nào") || q.includes("thời gian") || q.includes("thời điểm") || q.includes("ứng nghiệm")) {
+                const elementSeasons = {
+                    "Mộc": "mùa Xuân, hoặc các tháng/ngày thuộc hành Mộc (Dần, Mão — tầm tháng 1, tháng 2 âm lịch hoặc chu kỳ 3, 8 ngày/tuần)",
+                    "Hỏa": "mùa Hạ, hoặc các tháng/ngày thuộc hành Hỏa (Tỵ, Ngọ — tầm tháng 4, tháng 5 âm lịch hoặc chu kỳ 2, 7 ngày/tuần)",
+                    "Thổ": "cuối mỗi mùa (Tứ Quý: Thìn, Tuất, Sửu, Mùi — tháng 3, 6, 9, 12 âm lịch hoặc chu kỳ 5, 10 ngày/tuần)",
+                    "Kim": "mùa Thu, hoặc các tháng/ngày thuộc hành Kim (Thân, Dậu — tầm tháng 7, tháng 8 âm lịch hoặc chu kỳ 4, 9 ngày/tuần)",
+                    "Thủy": "mùa Đông, hoặc các tháng/ngày thuộc hành Thủy (Hợi, Tý — tầm tháng 10, tháng 11 âm lịch hoặc chu kỳ 1, 6 ngày/tuần)"
+                };
+                const targetEl = d.movingLines.length > 0 ? futureElement : envElement;
+                const movSpeed = d.movingLines.length === 0
+                    ? "Vì đây là <strong>Quẻ Tĩnh</strong> nên diễn biến sẽ từ từ, ổn định chứ không đến dồn dập ngay lập tức."
+                    : `Quẻ có <strong>${d.movingLines.length} hào động</strong> (đặc biệt tại ${d.movingLines.map(m => 'Hào ' + m.line).join(', ')}), báo hiệu chuyển biến sẽ đến rõ rệt khi gặp thời điểm hành <strong>${targetEl}</strong> vượng.`;
+
+                return `
+                    <p>${movSpeed}</p>
+                    <p class="mt-1.5">Theo Dịch số Ngũ Hành, thời điểm ứng nghiệm rõ nét nhất thường rơi vào <strong>${elementSeasons[targetEl]}</strong>. Nếu việc gấp rút có thể tính theo đơn vị ngày hoặc tuần kể từ lúc khởi quẻ.</p>
+                `;
+            }
+
+            // 3. Hỏi nên Tiến hay Lùi / Chủ động hay Chờ đợi
+            if (q.includes("tiến") || q.includes("lùi") || q.includes("chủ động") || q.includes("chờ") || q.includes("nên làm gì")) {
+                const isPush = verdict.tone === "positive" || innerOuterRel.type === "Khắc Xuất" || innerOuterRel.type === "Sinh Nhập";
+                return `
+                    <p>Xét tương quan Nội quái <strong>${mainLowerTrigram.name} (${selfElement})</strong> và Ngoại quái <strong>${mainUpperTrigram.name} (${envElement})</strong> đang ở thế <strong>${innerOuterRel.type}</strong>:</p>
+                    <p class="mt-1.5">${isPush
+                        ? `<strong>Nên chủ động tiến bước có tính toán:</strong> Thiên thời và thế quẻ (${d.mainHex.name} ➔ ${d.changedHex.name}) đang ủng hộ sự chủ động của bạn. Tuy nhiên hãy giữ đúng phương châm: <em>"${d.mainHex.advice}"</em>`
+                        : `<strong>Nên tạm lùi một nhịp để quan sát và củng cố nội lực:</strong> Hoàn cảnh bên ngoài đang tạo lực cản hoặc sự việc chưa chín muồi. Càng nóng vội tiến tới càng dễ hao tổn; kiên nhẫn chờ thời cơ ở Quẻ Biến <strong>${d.changedHex.name}</strong> sẽ lợi hơn.`}</p>
+                `;
+            }
+
+            // 4. Hỏi về Rủi ro / Điều cần tránh
+            if (q.includes("rủi ro") || q.includes("nguy hiểm") || q.includes("tránh") || q.includes("xấu") || q.includes("cẩn thận")) {
+                const movWarning = d.movingLines.length > 0
+                    ? `Điểm biến động nhạy cảm nhất nằm ở <strong>${d.movingLines.map(m => LINE_POSITION_MEANINGS[m.line].title).join(' và ')}</strong> — đây là chỗ dễ phát sinh thay đổi bất ngờ nếu bạn chủ quan.`
+                    : `Dù là Quẻ Tĩnh nhưng bên trong ẩn chứa <strong>Quẻ Hỗ ${d.mutualHex.name}</strong>, cần đề phòng tâm lý chủ quan hoặc trì trệ ở giai đoạn giữa.`;
+                return `
+                    <p><strong>Điều cần đề phòng nhất trong quẻ ${d.mainHex.name}:</strong> ${movWarning}</p>
+                    <p class="mt-1.5">Ngoài ra, khi quẻ chuyển sang <strong>${d.changedHex.name}</strong>, bạn cần lưu ý: <em>"${d.changedHex.advice}"</em> Tránh hành động theo cảm xúc nhất thời hoặc bỏ qua các chi tiết cam kết rõ ràng.</p>
+                `;
+            }
+
+            // 5. Câu hỏi mở tự do khác xoay quanh quẻ
+            return `
+                <p>Xét riêng câu hỏi <em>"${userFollowUp}"</em> dưới ánh sáng của bộ ba <strong>${d.mainHex.name} (Chủ) ➔ ${d.mutualHex.name} (Hỗ) ➔ ${d.changedHex.name} (Biến)</strong>:</p>
+                <p class="mt-1.5">• <strong>Về bản chất hiện tại (${d.mainHex.name}):</strong> ${d.mainHex.judgment} Nội tâm bạn (${mainLowerTrigram.name} - ${selfElement}) và hoàn cảnh (${mainUpperTrigram.name} - ${envElement}) đang tương tác theo thế <strong>${innerOuterRel.type}</strong>.</p>
+                <p class="mt-1">• <strong>Về quá trình & kết quả:</strong> Quá trình sẽ chịu chi phối bởi tính chất của Quẻ Hỗ <strong>${d.mutualHex.name}</strong> (<em>${d.mutualHex.image}</em>), và sau cùng ngã ngũ ở Quẻ Biến <strong>${d.changedHex.name}</strong>: <em>"${d.changedHex.advice}"</em></p>
+            `;
+        }
+
+        function sendFollowUpQuestion() {
+            if (!currentReadingData) {
+                showToast("Bạn cần lập quẻ trước khi đặt câu hỏi thêm!");
+                return;
+            }
+            const input = document.getElementById('followUpInput');
+            const question = input.value.trim();
+            if (!question) {
+                showToast("Vui lòng nhập nội dung bạn muốn hỏi thêm về quẻ này.");
+                return;
+            }
+
+            const thread = document.getElementById('followUpThread');
+            thread.classList.remove('hidden');
+
+            const answerHtml = generateFollowUpAnswer(question, currentReadingData);
+            const itemHtml = `
+                <div class="bg-[#fcf8f0] border border-[#b58938]/60 rounded-lg p-3.5 space-y-2 fade-in">
+                    <div class="flex items-start gap-2 text-xs sm:text-sm font-bold text-[#9e2a2b]">
+                        <span>🗣️ Bạn hỏi:</span>
+                        <span>"${question}"</span>
+                    </div>
+                    <div class="pl-4 border-l-2 border-[#b58938] text-xs sm:text-sm text-[#231f20] leading-relaxed">
+                        <span class="font-bold text-[#574f48] block mb-1">✒️ Thầy Đồ đáp:</span>
+                        ${answerHtml}
+                    </div>
+                </div>
+            `;
+
+            thread.insertAdjacentHTML('beforeend', itemHtml);
+            input.value = '';
+            thread.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         // ============================================================================
@@ -1691,6 +2085,7 @@
         // Khởi tạo ban đầu khi tải trang
         window.onload = function () {
             renderLiveHexagramSlots();
+            initManualHexagramSelector();
             updateClock();
             updateHistoryBadge();
         };
